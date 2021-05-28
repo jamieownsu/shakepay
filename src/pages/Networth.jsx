@@ -109,7 +109,7 @@ class Networth extends React.Component {
             />
             <CartesianGrid stroke="#ccc" strokeDasharray="3 3" />
             <XAxis
-              label={{ value: "Dates", fill: "#8884d8" }}
+              label={{ value: "Dates", fill: "#8884d8", dy: 14 }}
               interval={75}
               dataKey="date"
             />
@@ -119,6 +119,7 @@ class Networth extends React.Component {
                 angle: -90,
                 position: "insideLeft",
                 fill: "#8884d8",
+                dx: -5,
               }}
             />
             <Tooltip
