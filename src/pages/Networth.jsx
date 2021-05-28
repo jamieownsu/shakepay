@@ -9,6 +9,8 @@ import {
   Legend,
 } from "recharts";
 
+const URL =
+  "https://shakepay.github.io/programming-exercise/web/transaction_history.json";
 const BTC_RATE = 43399.09;
 const ETH_RATE = 3018.59;
 
@@ -23,15 +25,13 @@ class Networth extends React.Component {
   }
 
   componentDidMount() {
-    fetch(
-      "https://shakepay.github.io/programming-exercise/web/transaction_history.json"
-    )
+    fetch(URL)
       .then((res) => res.json())
       .then(
         (result) => {
+          this.formatData(result.reverse());
           this.setState({
             isLoaded: true,
-            items: result.reverse(),
           });
         },
         (error) => {
@@ -43,55 +43,48 @@ class Networth extends React.Component {
       );
   }
 
-  formatData() {
-    const { items } = this.state;
+  formatData(items) {
     let data = [];
-    items.forEach((item, index) => {
-      const date = new Date(item.createdAt);
+    let networth = 0;
+    items.forEach((item) => {
+      networth += this.getNetworth(item);
       data.push({
-        date: date.toLocaleDateString(),
-        networth: this.getNetworth(items.slice(0, index)),
+        date: new Date(item.createdAt).toLocaleDateString(),
+        networth: networth,
       });
     });
-    return data;
+    this.setState({
+      items: data,
+    });
   }
 
-  getNetworth(transactions) {
+  getNetworth(item) {
+    let netWorth;
+    if (item.type === "conversion") {
+      netWorth = this.addOrSubtract(item.from, false);
+      netWorth += this.addOrSubtract(item.to, true);
+    } else {
+      netWorth = this.addOrSubtract(item, item.direction === "credit");
+    }
+    return netWorth;
+  }
+
+  addOrSubtract(item, creditOrDebit) {
     let cad = 0.0,
       btc = 0.0,
       eth = 0.0;
-    transactions.forEach((item) => {
-      if (item.type === "conversion") {
-        if (item.from.currency === "CAD") {
-          cad -= item.from.amount;
-        } else if (item.currency === "BTC") {
-          btc -= item.from.amount;
-        } else if (item.currency === "ETH") {
-          eth -= item.from.amount;
-        }
-        if (item.to.currency === "CAD") {
-          cad += item.to.amount;
-        } else if (item.to.currency === "BTC") {
-          btc += item.to.amount;
-        } else if (item.to.currency === "ETH") {
-          eth += item.to.amount;
-        }
-      } else {
-        let creditOrDebit = item.direction === "credit";
-        if (item.currency === "CAD") {
-          creditOrDebit ? (cad += item.amount) : (cad -= item.amount);
-        } else if (item.currency === "BTC") {
-          creditOrDebit ? (btc += item.amount) : (btc -= item.amount);
-        } else if (item.currency === "ETH") {
-          creditOrDebit ? (eth += item.amount) : (eth -= item.amount);
-        }
-      }
-    });
+    if (item.currency === "CAD") {
+      creditOrDebit ? (cad += item.amount) : (cad -= item.amount);
+    } else if (item.currency === "BTC") {
+      creditOrDebit ? (btc += item.amount) : (btc -= item.amount);
+    } else if (item.currency === "ETH") {
+      creditOrDebit ? (eth += item.amount) : (eth -= item.amount);
+    }
     return cad + btc * BTC_RATE + eth * ETH_RATE;
   }
 
   render() {
-    const { error, isLoaded } = this.state;
+    const { error, isLoaded, items } = this.state;
     if (error) {
       return <div className="title">Error: {error.message}</div>;
     } else if (!isLoaded) {
@@ -100,7 +93,7 @@ class Networth extends React.Component {
       return (
         <div className="App-header">
           <h2 className="title">My Shakepay Networth</h2>
-          <LineChart width={1000} height={600} data={this.formatData()}>
+          <LineChart width={1000} height={600} data={items}>
             <Line
               name="Networth"
               type="monotone"
