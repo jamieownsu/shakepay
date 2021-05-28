@@ -9,8 +9,8 @@ import {
   Legend,
 } from "recharts";
 
-const BTC_RATE = 0.00002246;
-const ETH_RATE = 0.000322321609642528;
+const BTC_RATE = 43399.09;
+const ETH_RATE = 3018.59;
 
 class Networth extends React.Component {
   constructor(props) {
