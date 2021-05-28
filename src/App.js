@@ -3,13 +3,7 @@ import "./App.css";
 import Networth from "./pages/Networth";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <Networth />
-      </header>
-    </div>
-  );
+  return <Networth className="App App-header" />;
 }
 
 export default App;
