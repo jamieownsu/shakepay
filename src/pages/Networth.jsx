@@ -116,7 +116,7 @@ class Networth extends React.Component {
               dataKey="date"
             />
             <YAxis
-              width={75}
+              width={100}
               label={{
                 value: "CAD",
                 angle: -90,
