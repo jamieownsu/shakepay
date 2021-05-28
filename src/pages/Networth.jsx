@@ -102,6 +102,7 @@ class Networth extends React.Component {
           <h2 className="title">My Shakepay Networth</h2>
           <LineChart width={1000} height={600} data={this.formatData()}>
             <Line
+              name="Networth"
               type="monotone"
               dataKey="networth"
               stroke="#8884d8"
