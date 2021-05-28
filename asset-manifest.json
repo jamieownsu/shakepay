@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/shakepay/static/css/main.73ddcfbe.chunk.css",
+    "main.js": "/shakepay/static/js/main.82a7e415.chunk.js",
+    "main.js.map": "/shakepay/static/js/main.82a7e415.chunk.js.map",
+    "runtime-main.js": "/shakepay/static/js/runtime-main.d5265d60.js",
+    "runtime-main.js.map": "/shakepay/static/js/runtime-main.d5265d60.js.map",
+    "static/js/2.206e95ad.chunk.js": "/shakepay/static/js/2.206e95ad.chunk.js",
+    "static/js/2.206e95ad.chunk.js.map": "/shakepay/static/js/2.206e95ad.chunk.js.map",
+    "static/js/3.03657578.chunk.js": "/shakepay/static/js/3.03657578.chunk.js",
+    "static/js/3.03657578.chunk.js.map": "/shakepay/static/js/3.03657578.chunk.js.map",
+    "index.html": "/shakepay/index.html",
+    "static/css/main.73ddcfbe.chunk.css.map": "/shakepay/static/css/main.73ddcfbe.chunk.css.map",
+    "static/js/2.206e95ad.chunk.js.LICENSE.txt": "/shakepay/static/js/2.206e95ad.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.d5265d60.js",
+    "static/js/2.206e95ad.chunk.js",
+    "static/css/main.73ddcfbe.chunk.css",
+    "static/js/main.82a7e415.chunk.js"
+  ]
+}
