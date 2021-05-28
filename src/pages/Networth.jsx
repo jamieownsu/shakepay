@@ -108,9 +108,18 @@ class Networth extends React.Component {
               activeDot={{ r: 4 }}
             />
             <CartesianGrid stroke="#ccc" strokeDasharray="3 3" />
-            <XAxis label={{ value: "Dates" }} interval={100} dataKey="date" />
+            <XAxis
+              label={{ value: "Dates", fill: "#8884d8" }}
+              interval={75}
+              dataKey="date"
+            />
             <YAxis
-              label={{ value: "CAD", angle: -90, position: "insideLeft" }}
+              label={{
+                value: "CAD",
+                angle: -90,
+                position: "insideLeft",
+                fill: "#8884d8",
+              }}
             />
             <Tooltip
               formatter={(value) =>
