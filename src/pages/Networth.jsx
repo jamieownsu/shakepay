@@ -109,17 +109,18 @@ class Networth extends React.Component {
             />
             <CartesianGrid stroke="#ccc" strokeDasharray="3 3" />
             <XAxis
-              label={{ value: "Dates", fill: "#8884d8", dy: 14 }}
+              height={50}
+              label={{ value: "Dates", fill: "#8884d8", dy: 15 }}
               interval={75}
               dataKey="date"
             />
             <YAxis
+              width={75}
               label={{
                 value: "CAD",
                 angle: -90,
                 position: "insideLeft",
                 fill: "#8884d8",
-                dx: -5,
               }}
             />
             <Tooltip
@@ -132,7 +133,7 @@ class Networth extends React.Component {
                 }).format(value)
               }
             />
-            <Legend />
+            <Legend verticalAlign="top" height={36} />
           </LineChart>
         </div>
       );
