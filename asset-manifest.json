@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/shakepay/static/css/main.73ddcfbe.chunk.css",
-    "main.js": "/shakepay/static/js/main.dbf5674f.chunk.js",
-    "main.js.map": "/shakepay/static/js/main.dbf5674f.chunk.js.map",
+    "main.js": "/shakepay/static/js/main.f5bda7cf.chunk.js",
+    "main.js.map": "/shakepay/static/js/main.f5bda7cf.chunk.js.map",
     "runtime-main.js": "/shakepay/static/js/runtime-main.d5265d60.js",
     "runtime-main.js.map": "/shakepay/static/js/runtime-main.d5265d60.js.map",
     "static/js/2.206e95ad.chunk.js": "/shakepay/static/js/2.206e95ad.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.d5265d60.js",
     "static/js/2.206e95ad.chunk.js",
     "static/css/main.73ddcfbe.chunk.css",
-    "static/js/main.dbf5674f.chunk.js"
+    "static/js/main.f5bda7cf.chunk.js"
   ]
 }
