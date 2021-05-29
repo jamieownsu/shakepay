@@ -122,9 +122,9 @@ class Networth extends React.Component {
   render() {
     const { error, isLoaded, items } = this.state;
     if (error) {
-      return <div className="title">Error: {error.message}</div>;
+      return <div className="App">Error: {error.message}</div>;
     } else if (!isLoaded) {
-      return <div className="title">Loading...</div>;
+      return <div className="App">Loading...</div>;
     } else {
       return (
         <div className="App">
@@ -146,6 +146,7 @@ class Networth extends React.Component {
             />
             <YAxis
               width={100}
+              tickCount={10}
               label={{
                 value: "CAD",
                 angle: -90,
