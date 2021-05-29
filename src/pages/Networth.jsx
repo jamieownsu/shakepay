@@ -97,24 +97,22 @@ class Networth extends React.Component {
   addOrSubtract(item, creditOrDebit, createdAt) {
     const { btcRates, ethRates } = this.state;
     let btcRate = 0,
-      ethRate = 0,
-      cad = 0.0,
-      btc = 0.0,
-      eth = 0.0;
+      ethRate = 0;
     if (item.currency === "CAD") {
-      creditOrDebit ? (cad += item.amount) : (cad -= item.amount);
+      return creditOrDebit ? item.amount : -item.amount;
     } else if (item.currency === "BTC") {
       btcRate =
         btcRates.find((i) => this.splitDate(i.createdAt) === createdAt)
           ?.midMarketRate ?? BTC_RATE;
-      creditOrDebit ? (btc += item.amount) : (btc -= item.amount);
-    } else if (item.currency === "ETH") {
+      const btc = creditOrDebit ? item.amount : -item.amount;
+      return btc * btcRate;
+    } else {
       ethRate =
         ethRates.find((i) => this.splitDate(i.createdAt) === createdAt)
           ?.midMarketRate ?? ETH_RATE;
-      creditOrDebit ? (eth += item.amount) : (eth -= item.amount);
+      const eth = creditOrDebit ? item.amount : -item.amount;
+      return eth * ethRate;
     }
-    return cad + btc * btcRate + eth * ethRate;
   }
 
   splitDate(item) {
