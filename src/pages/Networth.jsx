@@ -15,8 +15,8 @@ const BTC_URL =
   "https://shakepay.github.io/programming-exercise/web/rates_CAD_BTC.json";
 const ETH_URL =
   "https://shakepay.github.io/programming-exercise/web/rates_CAD_ETH.json";
-const BTC_RATE = 43399.09;
-const ETH_RATE = 3018.59;
+const BTC_RATE = 43399.09,
+  ETH_RATE = 3018.59;
 
 class Networth extends React.Component {
   constructor(props) {
@@ -30,21 +30,19 @@ class Networth extends React.Component {
     };
   }
 
-  componentDidMount() {
-    fetch(BTC_URL)
-      .then((res) => res.json())
-      .then((result) => {
-        this.setState({
-          btcRates: result,
-        });
+  async componentDidMount() {
+    try {
+      const btcResp = await fetch(BTC_URL).then((res) => res.json());
+      this.setState({
+        btcRates: btcResp,
       });
-    fetch(ETH_URL)
-      .then((res) => res.json())
-      .then((result) => {
-        this.setState({
-          ethRates: result,
-        });
+      const ethResp = await fetch(ETH_URL).then((res) => res.json());
+      this.setState({
+        ethRates: ethResp,
       });
+    } catch (error) {
+      console.log(error);
+    }
     fetch(URL)
       .then((res) => res.json())
       .then(
