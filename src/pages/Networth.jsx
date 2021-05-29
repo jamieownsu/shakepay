@@ -155,6 +155,7 @@ class Networth extends React.Component {
               }}
             />
             <Tooltip
+              labelStyle={{ color: "black" }}
               formatter={(value) =>
                 new Intl.NumberFormat("en-CA", {
                   style: "currency",
