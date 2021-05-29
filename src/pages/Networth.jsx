@@ -129,7 +129,7 @@ class Networth extends React.Component {
       return <div className="title">Loading...</div>;
     } else {
       return (
-        <div className="App-header">
+        <div className="App">
           <h2 className="title">My Shakepay Networth</h2>
           <LineChart width={1000} height={600} data={items}>
             <Line
