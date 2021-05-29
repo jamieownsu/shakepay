@@ -11,6 +11,10 @@ import {
 
 const URL =
   "https://shakepay.github.io/programming-exercise/web/transaction_history.json";
+const BTC_URL =
+  "https://shakepay.github.io/programming-exercise/web/rates_CAD_BTC.json";
+const ETH_URL =
+  "https://shakepay.github.io/programming-exercise/web/rates_CAD_ETH.json";
 const BTC_RATE = 43399.09;
 const ETH_RATE = 3018.59;
 
@@ -21,10 +25,26 @@ class Networth extends React.Component {
       error: null,
       isLoaded: false,
       items: [],
+      btcRates: [],
+      ethRates: [],
     };
   }
 
   componentDidMount() {
+    fetch(BTC_URL)
+      .then((res) => res.json())
+      .then((result) => {
+        this.setState({
+          btcRates: result,
+        });
+      });
+    fetch(ETH_URL)
+      .then((res) => res.json())
+      .then((result) => {
+        this.setState({
+          ethRates: result,
+        });
+      });
     fetch(URL)
       .then((res) => res.json())
       .then(
@@ -60,27 +80,45 @@ class Networth extends React.Component {
 
   getNetworth(item) {
     let netWorth;
+    const createdAt = this.splitDate(item.createdAt);
     if (item.type === "conversion") {
-      netWorth = this.addOrSubtract(item.from, false);
-      netWorth += this.addOrSubtract(item.to, true);
+      netWorth = this.addOrSubtract(item.from, false, createdAt);
+      netWorth += this.addOrSubtract(item.to, true, createdAt);
     } else {
-      netWorth = this.addOrSubtract(item, item.direction === "credit");
+      netWorth = this.addOrSubtract(
+        item,
+        item.direction === "credit",
+        createdAt
+      );
     }
     return netWorth;
   }
 
-  addOrSubtract(item, creditOrDebit) {
-    let cad = 0.0,
+  addOrSubtract(item, creditOrDebit, createdAt) {
+    const { btcRates, ethRates } = this.state;
+    let btcRate = 0,
+      ethRate = 0,
+      cad = 0.0,
       btc = 0.0,
       eth = 0.0;
     if (item.currency === "CAD") {
       creditOrDebit ? (cad += item.amount) : (cad -= item.amount);
     } else if (item.currency === "BTC") {
+      btcRate =
+        btcRates.find((i) => this.splitDate(i.createdAt) === createdAt)
+          ?.midMarketRate ?? BTC_RATE;
       creditOrDebit ? (btc += item.amount) : (btc -= item.amount);
     } else if (item.currency === "ETH") {
+      ethRate =
+        ethRates.find((i) => this.splitDate(i.createdAt) === createdAt)
+          ?.midMarketRate ?? ETH_RATE;
       creditOrDebit ? (eth += item.amount) : (eth -= item.amount);
     }
-    return cad + btc * BTC_RATE + eth * ETH_RATE;
+    return cad + btc * btcRate + eth * ethRate;
+  }
+
+  splitDate(item) {
+    return item.split("T")[0];
   }
 
   render() {
