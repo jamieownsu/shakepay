@@ -62,7 +62,7 @@ class Networth extends React.Component {
   }
 
   formatData(items) {
-    let data = [];
+    const data = [];
     let networth = 0;
     items.forEach((item) => {
       networth += this.getNetworth(item);
@@ -94,18 +94,16 @@ class Networth extends React.Component {
 
   addOrSubtract(item, creditOrDebit, createdAt) {
     const { btcRates, ethRates } = this.state;
-    let btcRate = 0,
-      ethRate = 0;
     if (item.currency === "CAD") {
       return creditOrDebit ? item.amount : -item.amount;
     } else if (item.currency === "BTC") {
-      btcRate =
+      const btcRate =
         btcRates.find((i) => this.splitDate(i.createdAt) === createdAt)
           ?.midMarketRate ?? BTC_RATE;
       const btc = creditOrDebit ? item.amount : -item.amount;
       return btc * btcRate;
     } else {
-      ethRate =
+      const ethRate =
         ethRates.find((i) => this.splitDate(i.createdAt) === createdAt)
           ?.midMarketRate ?? ETH_RATE;
       const eth = creditOrDebit ? item.amount : -item.amount;
