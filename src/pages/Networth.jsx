@@ -144,7 +144,6 @@ class Networth extends React.Component {
             />
             <YAxis
               width={100}
-              tickCount={10}
               label={{
                 value: "CAD",
                 angle: -90,
