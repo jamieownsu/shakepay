@@ -1,12 +1,6 @@
 .App {
-  text-align: center;
-}
-
-.title {
   color: white;
-}
-
-.App-header {
+  text-align: center;
   background-color: #282c34;
   min-height: 100vh;
   display: flex;

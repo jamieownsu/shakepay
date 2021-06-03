@@ -9,29 +9,47 @@ import {
   Legend,
 } from "recharts";
 
-const BTC_RATE = 43399.09;
-const ETH_RATE = 3018.59;
+const URL =
+  "https://shakepay.github.io/programming-exercise/web/transaction_history.json";
+const BTC_URL =
+  "https://shakepay.github.io/programming-exercise/web/rates_CAD_BTC.json";
+const ETH_URL =
+  "https://shakepay.github.io/programming-exercise/web/rates_CAD_ETH.json";
+const BTC_RATE = 43399.09,
+  ETH_RATE = 3018.59;
 
-class Networth extends React.Component {
+class Networth extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       error: null,
       isLoaded: false,
       items: [],
+      btcRates: [],
+      ethRates: [],
     };
   }
 
-  componentDidMount() {
-    fetch(
-      "https://shakepay.github.io/programming-exercise/web/transaction_history.json"
-    )
+  async componentDidMount() {
+    try {
+      const btcResp = await fetch(BTC_URL).then((res) => res.json());
+      this.setState({
+        btcRates: btcResp,
+      });
+      const ethResp = await fetch(ETH_URL).then((res) => res.json());
+      this.setState({
+        ethRates: ethResp,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    fetch(URL)
       .then((res) => res.json())
       .then(
         (result) => {
+          this.formatData(result.reverse());
           this.setState({
             isLoaded: true,
-            items: result.reverse(),
           });
         },
         (error) => {
@@ -43,64 +61,71 @@ class Networth extends React.Component {
       );
   }
 
-  formatData() {
-    const { items } = this.state;
-    let data = [];
-    items.forEach((item, index) => {
-      const date = new Date(item.createdAt);
+  formatData(items) {
+    const data = [];
+    let networth = 0;
+    items.forEach((item) => {
+      networth += this.getNetworth(item);
       data.push({
-        date: date.toLocaleDateString(),
-        networth: this.getNetworth(items.slice(0, index)),
+        date: new Date(item.createdAt).toLocaleDateString(),
+        networth: networth,
       });
     });
-    return data;
+    this.setState({
+      items: data,
+    });
   }
 
-  getNetworth(transactions) {
-    let cad = 0.0,
-      btc = 0.0,
-      eth = 0.0;
-    transactions.forEach((item) => {
-      if (item.type === "conversion") {
-        if (item.from.currency === "CAD") {
-          cad -= item.from.amount;
-        } else if (item.currency === "BTC") {
-          btc -= item.from.amount;
-        } else if (item.currency === "ETH") {
-          eth -= item.from.amount;
-        }
-        if (item.to.currency === "CAD") {
-          cad += item.to.amount;
-        } else if (item.to.currency === "BTC") {
-          btc += item.to.amount;
-        } else if (item.to.currency === "ETH") {
-          eth += item.to.amount;
-        }
-      } else {
-        let creditOrDebit = item.direction === "credit";
-        if (item.currency === "CAD") {
-          creditOrDebit ? (cad += item.amount) : (cad -= item.amount);
-        } else if (item.currency === "BTC") {
-          creditOrDebit ? (btc += item.amount) : (btc -= item.amount);
-        } else if (item.currency === "ETH") {
-          creditOrDebit ? (eth += item.amount) : (eth -= item.amount);
-        }
-      }
-    });
-    return cad + btc * BTC_RATE + eth * ETH_RATE;
+  getNetworth(item) {
+    let netWorth;
+    const createdAt = this.splitDate(item.createdAt);
+    if (item.type === "conversion") {
+      netWorth = this.addOrSubtract(item.from, false, createdAt);
+      netWorth += this.addOrSubtract(item.to, true, createdAt);
+    } else {
+      netWorth = this.addOrSubtract(
+        item,
+        item.direction === "credit",
+        createdAt
+      );
+    }
+    return netWorth;
+  }
+
+  addOrSubtract(item, creditOrDebit, createdAt) {
+    const { btcRates, ethRates } = this.state;
+    if (item.currency === "CAD") {
+      return creditOrDebit ? item.amount : -item.amount;
+    } else if (item.currency === "BTC") {
+      const btcRate =
+        btcRates.find((i) => this.splitDate(i.createdAt) === createdAt)
+          ?.midMarketRate ?? BTC_RATE;
+      const btc = creditOrDebit ? item.amount : -item.amount;
+      return btc * btcRate;
+    } else {
+      const ethRate =
+        ethRates.find((i) => this.splitDate(i.createdAt) === createdAt)
+          ?.midMarketRate ?? ETH_RATE;
+      const eth = creditOrDebit ? item.amount : -item.amount;
+      return eth * ethRate;
+    }
+  }
+
+  splitDate(item) {
+    return item.split("T")[0];
   }
 
   render() {
-    const { error, isLoaded } = this.state;
+    const { error, isLoaded, items } = this.state;
     if (error) {
-      return <div className="title">Error: {error.message}</div>;
+      return <div className="App">Error: {error.message}</div>;
     } else if (!isLoaded) {
-      return <div className="title">Loading...</div>;
+      return <div className="App">Loading...</div>;
     } else {
       return (
-        <div className="App-header">
-          <h2 className="title">My Shakepay Networth</h2>
-          <LineChart width={1000} height={600} data={this.formatData()}>
+        <div className="App">
+          <h2>My Shakepay Networth</h2>
+          <LineChart width={1000} height={600} data={items}>
             <Line
               name="Networth"
               type="monotone"
@@ -125,6 +150,7 @@ class Networth extends React.Component {
               }}
             />
             <Tooltip
+              labelStyle={{ color: "black" }}
               formatter={(value) =>
                 new Intl.NumberFormat("en-CA", {
                   style: "currency",
