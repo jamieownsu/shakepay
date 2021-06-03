@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/shakepay/static/css/main.73ddcfbe.chunk.css",
-    "main.js": "/shakepay/static/js/main.a35de5f3.chunk.js",
-    "main.js.map": "/shakepay/static/js/main.a35de5f3.chunk.js.map",
+    "main.css": "/shakepay/static/css/main.c1f7cf53.chunk.css",
+    "main.js": "/shakepay/static/js/main.f7808b0c.chunk.js",
+    "main.js.map": "/shakepay/static/js/main.f7808b0c.chunk.js.map",
     "runtime-main.js": "/shakepay/static/js/runtime-main.d5265d60.js",
     "runtime-main.js.map": "/shakepay/static/js/runtime-main.d5265d60.js.map",
-    "static/js/2.206e95ad.chunk.js": "/shakepay/static/js/2.206e95ad.chunk.js",
-    "static/js/2.206e95ad.chunk.js.map": "/shakepay/static/js/2.206e95ad.chunk.js.map",
+    "static/js/2.3914a09d.chunk.js": "/shakepay/static/js/2.3914a09d.chunk.js",
+    "static/js/2.3914a09d.chunk.js.map": "/shakepay/static/js/2.3914a09d.chunk.js.map",
     "static/js/3.03657578.chunk.js": "/shakepay/static/js/3.03657578.chunk.js",
     "static/js/3.03657578.chunk.js.map": "/shakepay/static/js/3.03657578.chunk.js.map",
     "index.html": "/shakepay/index.html",
-    "static/css/main.73ddcfbe.chunk.css.map": "/shakepay/static/css/main.73ddcfbe.chunk.css.map",
-    "static/js/2.206e95ad.chunk.js.LICENSE.txt": "/shakepay/static/js/2.206e95ad.chunk.js.LICENSE.txt"
+    "static/css/main.c1f7cf53.chunk.css.map": "/shakepay/static/css/main.c1f7cf53.chunk.css.map",
+    "static/js/2.3914a09d.chunk.js.LICENSE.txt": "/shakepay/static/js/2.3914a09d.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.d5265d60.js",
-    "static/js/2.206e95ad.chunk.js",
-    "static/css/main.73ddcfbe.chunk.css",
-    "static/js/main.a35de5f3.chunk.js"
+    "static/js/2.3914a09d.chunk.js",
+    "static/css/main.c1f7cf53.chunk.css",
+    "static/js/main.f7808b0c.chunk.js"
   ]
 }
