@@ -18,7 +18,7 @@ const ETH_URL =
 const BTC_RATE = 43399.09,
   ETH_RATE = 3018.59;
 
-class Networth extends React.Component {
+class Networth extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
